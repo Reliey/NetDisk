@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Online</class>
+ <widget class="QWidget" name="Online">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>574</width>
+    <height>421</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QListWidget" name="online_lw">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <item>
+        <property name="text">
+         <string>1111</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="addFriend_pb">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>24</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+	color:black;
+	background-color:rgb(238 , 238 , 238);
+	border: 1px solid rgb(183 , 183 , 183);
+}
+
+QPushButton:hover
+{
+	color:black;
+	background-color:rgb(228 , 240 , 250);
+	border: 1px solid rgb(15 , 150 , 255);
+}
+
+QPushButton:pressed
+{
+	color:black;
+	background-color:rgb(204 , 228 , 247);
+	border: 1px solid rgb(1 , 84 , 153);
+	padding-left:3px;
+	padding-top:3px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>加好友</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TcpClient</class>
+ <widget class="QWidget" name="TcpClient">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>413</width>
+    <height>260</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>TcpClient</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="name_lab">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>AcadEref</family>
+           <pointsize>20</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>用户名：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="name_le">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>20</pointsize>
+          </font>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="pwd_lab">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>AcadEref</family>
+           <pointsize>20</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>密  码：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="pwd_le">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>20</pointsize>
+          </font>
+         </property>
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="login_pb">
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>24</pointsize>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton
+{
+	color:black;
+	background-color:rgb(238 , 238 , 238);
+	border: 1px solid rgb(183 , 183 , 183);
+}
+
+QPushButton:hover
+{
+	color:black;
+	background-color:rgb(228 , 240 , 250);
+	border: 1px solid rgb(15 , 150 , 255);
+}
+
+QPushButton:pressed
+{
+	color:black;
+	background-color:rgb(204 , 228 , 247);
+	border: 1px solid rgb(1 , 84 , 153);
+	padding-left:3px;
+	padding-top:3px;
+}
+</string>
+       </property>
+       <property name="text">
+        <string>登录</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="regist_pb">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>AcadEref</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+	color:black;
+	background-color:rgb(238 , 238 , 238);
+	border: 1px solid rgb(183 , 183 , 183);
+}
+
+QPushButton:hover
+{
+	color:black;
+	background-color:rgb(228 , 240 , 250);
+	border: 1px solid rgb(15 , 150 , 255);
+}
+
+QPushButton:pressed
+{
+	color:black;
+	background-color:rgb(204 , 228 , 247);
+	border: 1px solid rgb(1 , 84 , 153);
+	padding-left:3px;
+	padding-top:3px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>注册</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Preferred</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>30</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="cancel_pb">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <family>AcadEref</family>
+           <pointsize>16</pointsize>
+          </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+	color:black;
+	background-color:rgb(238 , 238 , 238);
+	border: 1px solid rgb(183 , 183 , 183);
+}
+
+QPushButton:hover
+{
+	color:black;
+	background-color:rgb(228 , 240 , 250);
+	border: 1px solid rgb(15 , 150 , 255);
+}
+
+QPushButton:pressed
+{
+	color:black;
+	background-color:rgb(204 , 228 , 247);
+	border: 1px solid rgb(1 , 84 , 153);
+	padding-left:3px;
+	padding-top:3px;
+}
+</string>
+         </property>
+         <property name="text">
+          <string>注销</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections/>
+</ui>
