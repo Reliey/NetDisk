@@ -248,4 +248,3 @@ bool OpeDB::handleDelFriend(const char *name, const char *friendName)
     return true;
 }
 
-
