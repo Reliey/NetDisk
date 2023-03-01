@@ -14,7 +14,7 @@ OpeDB &OpeDB::getInstance()
 void OpeDB::init()
 {
     m_db.setHostName("localhost");
-    m_db.setDatabaseName("E:\\QT_project\\TcpServer\\cloud.db");
+    m_db.setDatabaseName("C:\\Users\\lenovo\\Desktop\\NetDisk\\TcpServercloud.db");
     if(m_db.open())
     {
         QSqlQuery query;
