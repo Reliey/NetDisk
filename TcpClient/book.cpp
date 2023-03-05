@@ -74,6 +74,7 @@ void Book::updateFileList(const PDU *pdu)
     {
         return;
     }
+    //点击刷新文件后，需要将原来的信息清除掉，重新显示
     QListWidgetItem *pItemTmp = NULL;
     int row = m_pBookListW->count();
     while(m_pBookListW->count()>0)
@@ -217,6 +218,7 @@ void Book::reNameFile()
             memcpy(pdu->caMsg, strCurPath.toStdString().c_str(), strCurPath.size());
             memcpy(pdu->caData, strOldName.toStdString().c_str(), strOldName.size());
             memcpy(pdu->caData+32, strNewName.toStdString().c_str(), strNewName.size());
+
             TcpClient::getInstance().getTcpSocket().write((char*)pdu, pdu->uiPDULen);
             free(pdu);
             pdu = NULL;
@@ -252,7 +254,7 @@ void Book::returnPreDir()
     }
     else
     {
-        int index = strCurPath.lastIndexOf('/');
+        int index = strCurPath.lastIndexOf('/');//从后面往前找 / 返回值是int 删除这个值之后的字符
         strCurPath.remove(index, strCurPath.size() - index);
         qDebug() << "return -->" << strCurPath;
         TcpClient::getInstance().setCurPath(strCurPath);
@@ -276,12 +278,12 @@ void Book::uploadFile()
         PDU *pdu = mkPDU(strCurPath.size()+1);
         pdu->uiMsgType = ENUM_MSG_TYPE_UPLOAD_FILE_REQUEST;
         memcpy(pdu->caMsg, strCurPath.toStdString().c_str(), strCurPath.size());
-        sprintf(pdu->caData, "%s %lld", strFileName.toStdString().c_str(), fileSize);
+        sprintf(pdu->caData, "%s %lld", strFileName.toStdString().c_str(), fileSize);//将文件名和文件大小放入caData;
         TcpClient::getInstance().getTcpSocket().write((char*)pdu, pdu->uiPDULen);
         free(pdu);
         pdu = NULL;
 
-        m_pTimer->start(1000);
+        m_pTimer->start(1000);//启动定时器，定时器时间到后客户端在上传文件给服务器，避免要上传的文件和请求上传文件粘包
     }
     else
     {

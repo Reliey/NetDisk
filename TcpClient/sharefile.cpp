@@ -13,7 +13,7 @@ ShareFile::ShareFile(QWidget *parent) : QWidget(parent)
     m_pFriendW = new QWidget;
     m_pFrienVBL = new QVBoxLayout(m_pFriendW);
     m_pButtonGroup = new QButtonGroup(m_pFriendW);
-    m_pButtonGroup->setExclusive(false);
+    m_pButtonGroup->setExclusive(false);//设置可以多选
 
     QHBoxLayout *pTopHBL = new QHBoxLayout;
     pTopHBL->addWidget(m_pSelectAllPB);

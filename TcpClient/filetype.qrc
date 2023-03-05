@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>map/dir.png</file>
         <file>map/regFile.png</file>
+        <file>map/loginBack.gif</file>
+        <file>map/netdisk.png</file>
+        <file>map/close.png</file>
+        <file>map/min.png</file>
     </qresource>
 </RCC>

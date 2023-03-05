@@ -6,15 +6,225 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>413</width>
-    <height>260</height>
+    <width>640</width>
+    <height>445</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>640</width>
+    <height>445</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>640</width>
+    <height>446</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>TcpClient</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
-   <item>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QLabel" name="hand">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>120</y>
+     <width>70</width>
+     <height>70</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>70</width>
+     <height>70</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">border-image: url(:/map/netdisk.png);
+border-width:0px;
+border-radius:33px;
+border-style:solid;
+border-color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>641</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QLabel" name="icon">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>图标</string>
+      </property>
+      <property name="scaledContents">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="text">
+      <property name="minimumSize">
+       <size>
+        <width>60</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>网盘</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="min">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="filetype.qrc">
+        <normaloff>:/map/min.png</normaloff>:/map/min.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="close">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset resource="filetype.qrc">
+        <normaloff>:/map/close.png</normaloff>:/map/close.png</iconset>
+      </property>
+      <property name="flat">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="back">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>640</width>
+     <height>190</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>640</width>
+     <height>190</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>640</width>
+     <height>190</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <property name="text">
+    <string>背景</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="widget_3" native="true">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>190</y>
+     <width>641</width>
+     <height>271</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>641</width>
+     <height>271</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>641</width>
+     <height>271</height>
+    </size>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
+   <widget class="QWidget" name="widget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>0</y>
+      <width>454</width>
+      <height>121</height>
+     </rect>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -103,157 +313,167 @@
        </item>
       </layout>
      </item>
-     <item>
-      <widget class="QPushButton" name="login_pb">
-       <property name="font">
-        <font>
-         <family>Arial</family>
-         <pointsize>24</pointsize>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">QPushButton
-{
-	color:black;
-	background-color:rgb(238 , 238 , 238);
-	border: 1px solid rgb(183 , 183 , 183);
-}
-
-QPushButton:hover
-{
-	color:black;
-	background-color:rgb(228 , 240 , 250);
-	border: 1px solid rgb(15 , 150 , 255);
-}
-
-QPushButton:pressed
-{
-	color:black;
-	background-color:rgb(204 , 228 , 247);
-	border: 1px solid rgb(1 , 84 , 153);
-	padding-left:3px;
-	padding-top:3px;
-}
-</string>
-       </property>
-       <property name="text">
-        <string>登录</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QPushButton" name="regist_pb">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <family>AcadEref</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton
-{
-	color:black;
-	background-color:rgb(238 , 238 , 238);
-	border: 1px solid rgb(183 , 183 , 183);
-}
-
-QPushButton:hover
-{
-	color:black;
-	background-color:rgb(228 , 240 , 250);
-	border: 1px solid rgb(15 , 150 , 255);
-}
-
-QPushButton:pressed
-{
-	color:black;
-	background-color:rgb(204 , 228 , 247);
-	border: 1px solid rgb(1 , 84 , 153);
-	padding-left:3px;
-	padding-top:3px;
-}
-</string>
-         </property>
-         <property name="text">
-          <string>注册</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Preferred</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>30</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cancel_pb">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="font">
-          <font>
-           <family>AcadEref</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">QPushButton
-{
-	color:black;
-	background-color:rgb(238 , 238 , 238);
-	border: 1px solid rgb(183 , 183 , 183);
-}
-
-QPushButton:hover
-{
-	color:black;
-	background-color:rgb(228 , 240 , 250);
-	border: 1px solid rgb(15 , 150 , 255);
-}
-
-QPushButton:pressed
-{
-	color:black;
-	background-color:rgb(204 , 228 , 247);
-	border: 1px solid rgb(1 , 84 , 153);
-	padding-left:3px;
-	padding-top:3px;
-}
-</string>
-         </property>
-         <property name="text">
-          <string>注销</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
     </layout>
-   </item>
-  </layout>
+   </widget>
+   <widget class="QPushButton" name="login_pb">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>130</y>
+      <width>291</width>
+      <height>47</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+	color:black;
+	background-color: rgb(85, 170, 255);
+	border: none;
+}
+
+QPushButton:hover
+{
+	color:black;
+	background-color:rgb(228 , 240 , 250);
+	border: 1px solid rgb(15 , 150 , 255);
+}
+
+QPushButton:pressed
+{
+	color:black;
+	background-color:rgb(204 , 228 , 247);
+	border: 1px solid rgb(1 , 84 , 153);
+	padding-left:3px;
+	padding-top:3px;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>登录</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cancel_pb">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>220</y>
+      <width>56</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>AcadEref</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+	color:black;
+	background-color: rgb(255, 255, 255);
+	border: none;
+}
+
+QPushButton:hover
+{
+	color:black;
+	background-color:rgb(228 , 240 , 250);
+	border: 1px solid rgb(15 , 150 , 255);
+}
+
+QPushButton:pressed
+{
+	color:black;
+	background-color:rgb(204 , 228 , 247);
+	border: 1px solid rgb(1 , 84 , 153);
+	padding-left:3px;
+	padding-top:3px;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>注销</string>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="regist_pb">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>220</y>
+      <width>56</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>AcadEref</family>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+	color:black;
+	background-color: rgb(255, 255, 255);
+	border: none;
+}
+
+QPushButton:hover
+{
+	color:black;
+	background-color:rgb(228 , 240 , 250);
+	border: 1px solid rgb(15 , 150 , 255);
+}
+
+QPushButton:pressed
+{
+	color:black;
+	background-color:rgb(204 , 228 , 247);
+	border: 1px solid rgb(1 , 84 , 153);
+	padding-left:3px;
+	padding-top:3px;
+}
+</string>
+    </property>
+    <property name="text">
+     <string>注册</string>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <zorder>back</zorder>
+  <zorder>widget</zorder>
+  <zorder>hand</zorder>
+  <zorder>widget_3</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="filetype.qrc"/>
+ </resources>
  <connections/>
 </ui>

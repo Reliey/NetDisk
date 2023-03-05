@@ -6,15 +6,44 @@
 #include <QMessageBox>
 #include <QHostAddress>
 #include <privatechat.h>
+#include <QPoint>
+#include <QMouseEvent>
+
 TcpClient::TcpClient(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::TcpClient)
 {
     ui->setupUi(this);
 
-    resize(500,250);
+    //resize(500,250);
 
     loadConfig();
+
+    setWindowIcon(QIcon(":/map/netdisk.png"));
+    setWindowTitle("网盘");
+
+    ui->icon->setPixmap(QPixmap(":/map/netdisk.png"));
+    ui->icon->setScaledContents(true);
+
+    this->setWindowFlags(Qt::SplashScreen|Qt::WindowStaysOnTopHint|Qt::FramelessWindowHint); //取消系统标题
+
+    //系统托盘实例化并调用初始化函数
+     m_pSystemTrayIcon = new QSystemTrayIcon(this);
+     initSystemTray();
+
+     //初始化登录背景
+     startGIF();
+
+     //系统托盘右键菜单实例化并初始化
+     m_pMenu = new QMenu(this);
+     m_pShowAction = new QAction("打开主界面");
+     m_pCloseAction = new QAction("退出");
+     m_pMenu->addAction(m_pShowAction);
+     m_pMenu->addSeparator();
+     m_pMenu->addAction(m_pCloseAction);
+     m_pSystemTrayIcon->setContextMenu(m_pMenu);
+     connect(m_pShowAction,SIGNAL(triggered(bool)),this,SLOT(showWidget()));
+     connect(m_pCloseAction,SIGNAL(triggered(bool)),this,SLOT(on_close_clicked()));
 
     connect(&m_tcpSocket,SIGNAL(connected()),this,SLOT(showConnect()));
     // 连接服务器
@@ -75,6 +104,60 @@ QString TcpClient::curPath()
 void TcpClient::setCurPath(QString strCurPath)
 {
     m_strCurPath = strCurPath;
+}
+
+void TcpClient::mousePressEvent(QMouseEvent *event)
+{
+    isPressedWidget = true; //当前鼠标按下的是QWidget而非界面上布局的其他控件
+    last = event->globalPos();
+}
+
+void TcpClient::mouseMoveEvent(QMouseEvent *event)
+{
+    if(isPressedWidget)
+    {
+        int dx = event->globalX() - last.x();
+        int dy = event->globalY() - last.y();
+        last = event->globalPos();
+        move(x()+dx,y()+dy);
+    }
+}
+
+void TcpClient::mouseReleaseEvent(QMouseEvent *event)
+{
+    int dx = event->globalX() - last.x();
+    int dy = event->globalY() - last.y();
+    move(x()+dx,y()+dy);
+    isPressedWidget = false;
+}
+
+void TcpClient::initSystemTray()
+{
+    //初始化系统托盘
+    m_pSystemTrayIcon->setIcon(QIcon(":/map/netdisk.png"));//添加图标
+    m_pSystemTrayIcon->setToolTip("网盘");//鼠标悬浮时，显示文字
+    m_pSystemTrayIcon->show();
+}
+
+void TcpClient::startGIF()
+{
+    m_pMovie = new QMovie(":/map/loginBack.gif");
+    ui->back->setMovie(m_pMovie);
+    m_pMovie->start();
+    m_pMovie->setPaused(false);
+    m_pMovie->setSpeed(100);
+}
+
+void TcpClient::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter){
+        on_login_pb_clicked();
+        event->accept();
+    }
+    else{
+        //交给父类处理其他按键事件
+        QWidget::keyPressEvent(event);
+    }
 }
 
 void TcpClient::showConnect()
@@ -410,3 +493,20 @@ void TcpClient::on_cancel_pb_clicked()
 {
 
 }
+
+void TcpClient::on_min_clicked()
+{
+    this->hide();
+}
+
+void TcpClient::on_close_clicked()
+{
+    delete m_pSystemTrayIcon;
+    this->close();
+}
+
+void TcpClient::showWidget()
+{
+    this->show();
+}
+
