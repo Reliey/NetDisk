@@ -1,5 +1,5 @@
 # 忽略当前目录下的 Debug 文件
 build-TcpServer-Desktop_Qt_5_9_3_MinGW_32bit-Debug/
-build-TcpServer-Desktop_Qt_5_9_3_MinGW_32bit-Debug/
+build-TcpClient-Desktop_Qt_5_9_3_MinGW_32bit-Debug/
 #忽略所有 .user 结尾的文件
 *.user
