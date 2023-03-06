@@ -37,7 +37,9 @@ TcpClient::TcpClient(QWidget *parent) :
      //系统托盘右键菜单实例化并初始化
      m_pMenu = new QMenu(this);
      m_pShowAction = new QAction("打开主界面");
+     m_pShowAction->setFont(QFont("Arial",7));
      m_pCloseAction = new QAction("退出");
+     m_pCloseAction->setFont(QFont("Arial",7));
      m_pMenu->addAction(m_pShowAction);
      m_pMenu->addSeparator();
      m_pMenu->addAction(m_pCloseAction);
@@ -467,6 +469,8 @@ void TcpClient::on_login_pb_clicked()
     {
         QMessageBox::critical(this,"登录","登录失败：用户名或者密码不能为空");
     }
+
+    m_pSystemTrayIcon->hide();
 }
 
 void TcpClient::on_regist_pb_clicked()
@@ -503,6 +507,7 @@ void TcpClient::on_close_clicked()
 {
     delete m_pSystemTrayIcon;
     this->close();
+    exit(0);
 }
 
 void TcpClient::showWidget()

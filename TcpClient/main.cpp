@@ -12,11 +12,15 @@ int main(int argc, char *argv[])
     a.setFont(font);
 //    TcpClient w;
 //    w.show();
+
     TcpClient::getInstance().show();
+
 //    QMessageBox::information(NULL, "添加好友", "6666", QMessageBox::Yes, QMessageBox::No);
 //    ShareFile w;
 //    w.show();
 
+//      OpeWidget w;
+//      w.show();
 //    Book w;
 //    w.show();
 

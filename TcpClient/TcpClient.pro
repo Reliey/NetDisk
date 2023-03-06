@@ -51,4 +51,5 @@ FORMS += \
 
 RESOURCES += \
     config.qrc \
-    filetype.qrc
+    filetype.qrc \
+    ope.qrc

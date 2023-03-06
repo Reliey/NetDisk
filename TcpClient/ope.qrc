@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>opewidget/file.png</file>
+        <file>opewidget/friend.png</file>
+    </qresource>
+</RCC>
