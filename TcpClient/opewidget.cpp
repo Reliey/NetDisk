@@ -24,6 +24,14 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
     item2->setText("文件");
     m_pListW->addItem(item2);
 
+    m_vframe = new QFrame;
+    m_vframe->setFrameShape(QFrame::VLine); //设置垂直线
+    m_vframe->setFrameShadow(QFrame::Plain);
+    m_vframe->setStyleSheet("width:1px;color:rgba(30,32,40,1)");
+    m_hframe = new QFrame;
+    m_hframe->setFrameShape(QFrame::HLine); //设置水平线
+    m_hframe->setFrameShadow(QFrame::Plain);
+    m_hframe->setStyleSheet("width:1px;color:rgba(30,32,40,1)");
 
     m_pFriend = new Friend;
     m_pBook = new Book;
@@ -54,11 +62,15 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
 
     QVBoxLayout *pLeftVBL = new QVBoxLayout;
     pLeftVBL->addLayout(topVBL);
+    pLeftVBL->addWidget(m_hframe);
     pLeftVBL->addWidget(m_pListW);
+    pLeftVBL->setSpacing(0);
 
     QHBoxLayout *pMain = new QHBoxLayout;
     pMain->addLayout(pLeftVBL);
+    pMain->addWidget(m_vframe);
     pMain->addWidget(m_pSW);
+    pMain->setSpacing(0);
 
     setLayout(pMain);
 
@@ -70,7 +82,7 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
     this->setPalette(palette);
 
 //    m_pListW->setStyleSheet("background-color: rgb(245,245,246)");
-    m_pListW->setFixedWidth(200);
+    m_pListW->setFixedWidth(175);
 
     m_pListW->setIconSize(QSize(25, 25));
     m_pListW->setFocusPolicy(Qt::NoFocus);  //这样可禁用tab键和上下方向键并且除去复选框
@@ -84,6 +96,7 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
                 "QListWidget::Item:selected{color:rgba(40, 40, 200, 255); padding-left:15px;}"
                 );
     connect(m_pListW,SIGNAL(currentRowChanged(int)),m_pSW,SLOT(setCurrentIndex(int)));
+
 }
 
 OpeWidget &OpeWidget::getInstance()

@@ -3,6 +3,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QFrame>
 #include "opewidget.h"
 #include "sharefile.h"
 Book::Book(QWidget *parent) : QWidget(parent)
@@ -14,12 +15,17 @@ Book::Book(QWidget *parent) : QWidget(parent)
     m_pTimer = new QTimer;
 
     m_pBookListW = new QListWidget;
+    m_vframe = new QFrame;
     m_pReturnPB = new QPushButton("返回");
     m_pCreateDirPB = new QPushButton("创建文件夹");
     m_pDelDirPB = new QPushButton("删除文件夹");
     m_pRenamePB = new QPushButton("重命名文件");
     m_pFlushFilePB = new QPushButton("刷新文件");
     m_pMoveFilePB = new QPushButton("移动文件");
+
+    m_vframe->setFrameShape(QFrame::VLine); //设置垂直线
+    m_vframe->setFrameShadow(QFrame::Plain);
+    m_vframe->setStyleSheet("width:1px;color:rgba(30,32,40,1)");
 
     QVBoxLayout *pDirVBL = new QVBoxLayout;
     pDirVBL->addWidget(m_pReturnPB);
@@ -34,7 +40,6 @@ Book::Book(QWidget *parent) : QWidget(parent)
     m_pDownloadPB = new QPushButton("下载文件");
     m_pDelFilePB = new QPushButton("删除文件");
     m_pShareFilePB = new QPushButton("共享文件");
-
     m_pSelectDirPB = new QPushButton("目标目录");
     m_pSelectDirPB->setEnabled(false);
 
@@ -47,10 +52,16 @@ Book::Book(QWidget *parent) : QWidget(parent)
 
     QHBoxLayout *pMain = new QHBoxLayout;
     pMain->addWidget(m_pBookListW);
+    pMain->addWidget(m_vframe);
     pMain->addLayout(pDirVBL);
     pMain->addLayout(pFileVBL);
 
     setLayout(pMain);
+
+    m_pBookListW->setStyleSheet("font-size: 20px;"
+                                "background:rgb(245, 245, 247); border:0px; margin:0px 0px 0px 0px;}"
+                                "color:rgb(55,55,55);"
+                                "padding-left:15px;");
 
     connect(m_pCreateDirPB, SIGNAL(clicked(bool)), this, SLOT(createDir()));
     connect(m_pFlushFilePB, SIGNAL(clicked(bool)), this, SLOT(flushFile()));
@@ -65,6 +76,7 @@ Book::Book(QWidget *parent) : QWidget(parent)
     connect(m_pShareFilePB, SIGNAL(clicked(bool)), this, SLOT(shareFile()));
     connect(m_pMoveFilePB, SIGNAL(clicked(bool)), this, SLOT(moveFile()));
     connect(m_pSelectDirPB, SIGNAL(clicked(bool)), this, SLOT(selectDesDir()));
+
 }
 
 void Book::updateFileList(const PDU *pdu)
@@ -169,6 +181,7 @@ void Book::flushFile()
 {
     clearEnterDir();
     QString strCurPath = TcpClient::getInstance().curPath();
+    qDebug() << "现在路径" << TcpClient::getInstance().curPath();
     PDU *pdu = mkPDU(strCurPath.size()+1);
     pdu->uiMsgType = ENUM_MSG_TYPE_FLUSH_FILE_REQUEST;
     memcpy(pdu->caMsg, strCurPath.toStdString().c_str(), strCurPath.size());

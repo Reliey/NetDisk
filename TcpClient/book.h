@@ -60,6 +60,7 @@ private:
     QPushButton *m_pShareFilePB;
     QPushButton *m_pMoveFilePB;
     QPushButton *m_pSelectDirPB;
+    QFrame *m_vframe;
 
     QString m_strEnterDir;
     QString m_strUploadFilePath;

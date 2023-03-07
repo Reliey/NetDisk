@@ -199,6 +199,7 @@ void TcpClient::recvMsg()
                 m_strCurPath = QString("./%1").arg(m_strLoginName);
                 QMessageBox::information(this,"登录",LOGIN_OK);
                 OpeWidget::getInstance().show();
+                OpeWidget::getInstance().getBook()->flushFile(); //add 2023.3.5
                 this->hide();
             }
             else

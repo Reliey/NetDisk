@@ -29,6 +29,8 @@ private:
     QStackedWidget *m_pSW;
     QLabel *m_profile;
     QLabel *m_name;
+    QFrame *m_vframe;
+    QFrame *m_hframe;
 };
 
 #endif // OPEWIDGET_H
