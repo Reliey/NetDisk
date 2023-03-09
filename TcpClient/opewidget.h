@@ -16,11 +16,11 @@ public:
     Friend *getFriend();
     Book *getBook();
 //    void add_ListWidgetItem();
-
+    bool eventFilter(QObject *obj, QEvent *event) override;
+    void setHand();
 signals:
 
 public slots:
-
 
 private:
     QListWidget *m_pListW;

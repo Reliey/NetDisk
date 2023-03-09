@@ -38,6 +38,8 @@ public:
 public slots:
     void showConnect();
 
+signals:
+
 private slots:
     //void on_send_pb_clicked();
     void recvMsg();

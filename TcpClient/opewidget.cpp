@@ -2,8 +2,11 @@
 #include <QListWidgetItem>
 #include <QPainterPath>
 #include <QPainter>
+#include <QFileDialog>
 OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
 {
+    this->setMinimumSize(1000,500);
+
     m_pListW = new QListWidget(this);
 //    m_pListW->addItem("好友");
 //    m_pListW->addItem("图书");
@@ -36,6 +39,7 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
     m_pFriend = new Friend;
     m_pBook = new Book;
     m_profile = new QLabel;
+    m_profile->setFixedSize(40,40);
     QString name = TcpClient::getInstance().loginName();
     m_name = new QLabel(name);
 
@@ -50,8 +54,10 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
     painter.setClipPath(path);
     painter.drawPixmap(1,1,40,40, pixmapa);
     m_profile->setPixmap(pixmap);
+    m_profile->installEventFilter(this);
 
     QHBoxLayout *topVBL = new QHBoxLayout;
+    //topVBL->setFixedWidth(175,100);
     topVBL->addWidget(m_profile);
     topVBL->addWidget(m_name);
     topVBL->setAlignment(Qt::AlignCenter);
@@ -97,6 +103,7 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
                 );
     connect(m_pListW,SIGNAL(currentRowChanged(int)),m_pSW,SLOT(setCurrentIndex(int)));
 
+    setHand();
 }
 
 OpeWidget &OpeWidget::getInstance()
@@ -115,4 +122,80 @@ Book *OpeWidget::getBook()
     return m_pBook;
 }
 
+bool OpeWidget::eventFilter(QObject *obj, QEvent *event)
+{
+    if(qobject_cast<QLabel*>(obj) == m_profile && event->type() == QEvent::MouseButtonRelease)
+    {
+        qDebug() << "点击了头像";
+        //模态QFileDialog使用静态函数创建，根据第三个参数选择路径打开对话框，第四个参数寻找该路径下与之相匹配的文件
+        QString filePath = QFileDialog::getOpenFileName(this,tr("Open Image"),"../TcpClient",tr("Image Files (*.png *.jpg *.bmp)"));
+        if(filePath == ""){
+            return true;
+        }
+        qDebug() << filePath;
+        int index = filePath.lastIndexOf("/");
+        QString fileName = filePath.mid(index+1,filePath.size()-index);
+        qDebug() << fileName;
+        QString dstPath = QCoreApplication::applicationDirPath();
+
+        dstPath.chop(dstPath.size()-dstPath.lastIndexOf("/"));
+        dstPath.chop(dstPath.size()-dstPath.lastIndexOf("/"));
+        qDebug() << "dstPath：" <<dstPath;
+        dstPath = dstPath + "/TcpClient/Img/" + fileName;
+        filePath.replace("\\","/");
+        dstPath.replace("\\","/");
+        bool ret = QFile::copy(filePath,dstPath);
+        qDebug() << "文件复制：" << ret;
+
+        //写头像文件信息
+        QFile file("../TcpClient/Img.txt");
+        bool l = file.open(QIODevice::WriteOnly | QIODevice::Text);
+        if(l == true)
+        {
+            qDebug() << "打开文件成成功";
+            file.write(dstPath.toStdString().c_str());
+            //file.write("\n");
+        }
+        file.close();
+
+        QPixmap tmpPix;
+        tmpPix.load(dstPath);
+        //图片缩放
+        //Qt::KeepAspectRatio  保持图片比例，缩放到size内最大矩形
+        tmpPix.scaled(m_profile->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+        m_profile->setScaledContents(true);
+        m_profile->setPixmap(tmpPix);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void OpeWidget::setHand()
+{
+    qDebug() << "设置头像";
+    QFile file("../TcpClient/Img.txt");
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "读取文件失败";
+        return;
+    }
+
+    QByteArray line = file.readLine();
+    QString path = line.toStdString().c_str();
+    path = path.trimmed();//去掉换行符
+    QPixmap tmpPix;
+    tmpPix.load(path);
+    tmpPix.scaled(m_profile->size(),Qt::KeepAspectRatio,Qt::SmoothTransformation);
+    m_profile->setScaledContents(true);
+    m_profile->setPixmap(tmpPix);
+    file.close();
+}
+
+
+//客户端选择一个头像文件
+//将该文件复制一份并在txt文件中留下记录
+//客户端登录的时候，读取txt文件，并加载头像
 

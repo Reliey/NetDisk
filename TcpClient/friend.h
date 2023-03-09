@@ -25,7 +25,7 @@ public:
     QListWidget *getFriendLW() const;
     PrivateChat *searchPriChat(const char* chatName);
     void insertPriChatToList(PrivateChat * priChat);
-
+    //void setRightMenu();
 signals:
 
 public slots:
@@ -35,6 +35,8 @@ public slots:
     void delFriend();
     void privateChat();
     void groupChat();
+    void showMenu(const QPoint& pos);
+    //void onContextMenuEvent(QAction *action);
 
 private:
     QTextEdit *m_pShowMsgTE;
@@ -52,8 +54,9 @@ private:
 
     QList<PrivateChat *> m_priChatList;
 
-
-
+    //鼠标右键菜单
+    QMenu *m_pRightMenu;
+    QAction *m_pDelFriend;
 };
 
 #endif // FRIEND_H
