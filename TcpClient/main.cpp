@@ -8,7 +8,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QFont font("Times", 24, QFont::Bold);
+    QFont font("Times", 18, QFont::Bold);
     a.setFont(font);
 //    TcpClient w;
 //    w.show();

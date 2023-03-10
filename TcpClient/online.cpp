@@ -19,6 +19,7 @@ void Online::showUsr(PDU *pdu)
     {
         return;
     }
+    ui->online_lw->clear();
     uint uiSize = pdu->uiMsgLen/32;
     char caTmp[32];
     for(uint i=0; i<uiSize; i++)

@@ -3,95 +3,93 @@
 #include <QInputDialog>
 #include <QDebug>
 #include <QMessageBox>
+#include <QFile>
+#include <QtWidgets/QApplication>
 
 Friend::Friend(QWidget *parent) : QWidget(parent)
 {
+    QFile file(":/myQSS.qss");
+    file.open(QIODevice::ReadOnly);
+    qApp->setStyleSheet(file.readAll());
+    file.close();
+
     m_pShowMsgTE = new QTextEdit;
     m_pFriendListWidget = new QListWidget;
     m_pInputMsgLE = new QLineEdit;
 
-    m_pDelFriendPB = new QPushButton("删除好友");
-    m_pFlushFriendPB = new QPushButton("刷新好友");
+    m_pDelFriendPB = new QPushButton;
+    m_pFlushFriendPB = new QPushButton;
     m_pShowOnlineUsrPB = new QPushButton("显示在线用户");
-    m_pSearchUsrPB = new QPushButton("查找用户");
+    m_pSearchUsrPB = new QPushButton;
     m_pMsgSendPB = new QPushButton("信息发送");
     m_pPrivateChatPB = new QPushButton("私聊");
 
-    m_pDelFriendPB->hide();
-    m_pPrivateChatPB->hide();
+    //消息显示只读
+    m_pShowMsgTE->setReadOnly(true);
 
-//    QVBoxLayout *pRightPBVBL = new QVBoxLayout;
-//    pRightPBVBL->addWidget(m_pDelFriendPB);
-//    pRightPBVBL->addWidget(m_pFlushFriendPB);
-//    pRightPBVBL->addWidget(m_pShowOnlineUsrPB);
-//    pRightPBVBL->addWidget(m_pSearchUsrPB);
-//    pRightPBVBL->addWidget(m_pPrivateChatPB);
+    m_pFlushFriendPB->setObjectName("m_pFlushFriendPB");
+    m_pDelFriendPB->setObjectName("m_pDelFriendPB");
+    m_pSearchUsrPB->setObjectName("m_pSearchUsrPB");
+    m_pMsgSendPB->setObjectName("m_pMsgSendPB");
+    m_pShowOnlineUsrPB->setObjectName("m_pShowOnlineUsrPB");
+    m_pPrivateChatPB->setObjectName("m_pPrivateChatPB");
+
+    m_pSearchName = new QLineEdit;
+    m_pSearchName->setFixedHeight(50);
+    QHBoxLayout *search = new QHBoxLayout;
+    search->addWidget(m_pSearchName);
+    search->addWidget(m_pSearchUsrPB);
 
     QHBoxLayout *pTopHBL =new QHBoxLayout;
+    QSpacerItem *space1 = new QSpacerItem(0,0);
+    QSpacerItem *space2 = new QSpacerItem(0,0);
+    QSpacerItem *space3 = new QSpacerItem(0,0);
+    QSpacerItem *space4 = new QSpacerItem(0,0);
+    m_pShowOnlineUsrPB->setFixedSize(200,50);
+    m_pPrivateChatPB->setFixedSize(200,50);
     pTopHBL->addWidget(m_pShowOnlineUsrPB);
-    pTopHBL->addWidget(m_pSearchUsrPB);
+    pTopHBL->addItem(space1);
+    pTopHBL->addWidget(m_pPrivateChatPB);
+    pTopHBL->addItem(space2);
+    pTopHBL->addLayout(search);
+    pTopHBL->addItem(space4);
+    pTopHBL->addWidget(m_pDelFriendPB);
+    pTopHBL->addItem(space3);
     pTopHBL->addWidget(m_pFlushFriendPB);
-
-    m_pShowOnlineUsrPB->setStyleSheet("border:none;"
-                                      "text-align: left;"
-                                      "font-family:'Arial';"
-                                      "font-size:18px;");
-    m_pShowOnlineUsrPB->setFixedSize(115,30);
-    m_pSearchUsrPB->setStyleSheet("border:none;"
-                                      "text-align: left;"
-                                      "font-family:'Arial';"
-                                      "font-size:18px;");
-    m_pSearchUsrPB->setFixedSize(115,30);
-    m_pFlushFriendPB->setStyleSheet("border:none;"
-                                      "text-align: left;"
-                                      "font-family:'Arial';"
-                                      "font-size:18px;");
-    m_pFlushFriendPB->setFixedSize(115,30);
-
-    QHBoxLayout *pCentreHBL =new QHBoxLayout;
-    pCentreHBL->addWidget(m_pFriendListWidget);
-    pCentreHBL->addWidget(m_pShowMsgTE);
-    //pCentreHBL->addLayout(pRightPBVBL);
 
     QHBoxLayout *pMsgHBL = new QHBoxLayout;
     pMsgHBL->addWidget(m_pInputMsgLE);
     pMsgHBL->addWidget(m_pMsgSendPB);
 
     m_pOnline = new Online;
+    m_pOnline->setWindowTitle("在线用户");
+    m_pOnline->hide();
+
+
+    QVBoxLayout *pRight = new QVBoxLayout;
+    pRight->addWidget(m_pShowMsgTE);
+    pRight->addLayout(pMsgHBL);
+
+    QHBoxLayout *pCentreHBL =new QHBoxLayout;
+    m_pFriendListWidget->setFixedWidth(200);
+    m_pFriendListWidget->setFont(QFont("Arial",10));
+    m_pShowMsgTE->setMinimumSize(400,500);
+    pCentreHBL->addWidget(m_pFriendListWidget);
+    pCentreHBL->addLayout(pRight);
 
     QVBoxLayout *pMain = new QVBoxLayout;
     pMain->addLayout(pTopHBL);
     pMain->addLayout(pCentreHBL);
-    pMain->addLayout(pMsgHBL);
-    pMain->addWidget(m_pOnline);
-    m_pOnline->hide();
 
-    setLayout(pMain);
+    setLayout(pMain); 
 
+    //m_pFlushFriendPB->setStyleSheet("QPushButton{background-color:green;}");
     connect(m_pShowOnlineUsrPB,SIGNAL(clicked(bool)),this,SLOT(showOnline()));
     connect(m_pSearchUsrPB, SIGNAL(clicked(bool)), this,SLOT(searchUsr()));
     connect(m_pFlushFriendPB, SIGNAL(clicked(bool)), this, SLOT(flushFriend()));
     connect(m_pDelFriendPB, SIGNAL(clicked(bool)), this, SLOT(delFriend()));
     connect(m_pPrivateChatPB, SIGNAL(clicked(bool)), this, SLOT(privateChat()));
     connect(m_pMsgSendPB, SIGNAL(clicked(bool)), this, SLOT(groupChat()));
-
-    //设置QTextEdit上默认字体大小
-    m_pShowMsgTE->setFont(QFont("Arial",12));
-    //设置QTextEdit只读不可写
-    m_pShowMsgTE->setReadOnly(true);
-    //设置信息输入框字体大小
-    m_pInputMsgLE->setFont(QFont("Arial",15));
-    //设置好友列表字体大小
-    m_pFriendListWidget->setFont(QFont("Arial",12));
-    //设置QListWidget的contextMenuPolicy属性，不然不能显示右键菜单
-    m_pFriendListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-
-    m_pRightMenu = new QMenu(m_pFriendListWidget);
-    m_pRightMenu->setFont(QFont("Arial",12));
-    m_pDelFriend = new QAction("删除",m_pFriendListWidget);
-    m_pRightMenu->addAction(m_pDelFriend);
-
-    connect(m_pFriendListWidget,SIGNAL(customContextMenuRequested(QPoint)),this,SLOT(showMenu(QPoint)));
 }
 
 void Friend::showAllOnlineUsr(PDU *pdu)
@@ -148,19 +146,6 @@ void Friend::insertPriChatToList(PrivateChat *priChat)
     m_priChatList.append(priChat);
 }
 
-void Friend::showMenu(const QPoint& pos)
-{
-    QPoint globalPos = m_pFriendListWidget->mapToGlobal(pos);
-    m_pRightMenu->exec(globalPos);
-}
-
-//void Friend::onContextMenuEvent(QAction *action)
-//{
-//    if(action->text() == "刷新"){
-//        qDebug() << "要刷新好友";
-//    }
-//}
-
 void Friend::showOnline()
 {
     if(m_pOnline->isHidden())
@@ -180,7 +165,8 @@ void Friend::showOnline()
 
 void Friend::searchUsr()
 {
-    m_strSearchName = QInputDialog::getText(this, "搜索", "用户名：");
+    m_strSearchName = m_pSearchName->text();
+    m_pSearchName->clear();
     if(!m_strSearchName.isEmpty())
     {
         qDebug() << m_strSearchName;
@@ -196,7 +182,6 @@ void Friend::searchUsr()
 void Friend::flushFriend()
 {
     QString strName = TcpClient::getInstance().loginName();
-//    qDebug() << strName;
     PDU *pdu =mkPDU(0);
     pdu->uiMsgType = ENUM_MSG_TYPE_FLUSH_FRIEND_REQUEST;
     memcpy(pdu->caData, strName.toStdString().c_str(), strName.size());
@@ -226,7 +211,6 @@ void Friend::privateChat()
 {
     if(m_pFriendListWidget->currentItem() == NULL)
     {
-//        QMessageBox::warning(this, "私聊", "请选择私聊对象");
         return;
     }
 
@@ -252,8 +236,7 @@ void Friend::privateChat()
 void Friend::groupChat()
 {
     QString strMsg = m_pInputMsgLE->text();
-    QString name = TcpClient::getInstance().loginName();
-    m_pShowMsgTE->append(name + "：" + strMsg);
+    m_pInputMsgLE->clear();
     if(!strMsg.isEmpty())
     {
         PDU *pdu = mkPDU(strMsg.size()+1);
@@ -262,10 +245,10 @@ void Friend::groupChat()
         strncpy(pdu->caData, strName.toStdString().c_str(), strName.size());
         strncpy((char*)pdu->caMsg, strMsg.toStdString().c_str(), strMsg.size());
         TcpClient::getInstance().getTcpSocket().write((char*)pdu, pdu->uiPDULen);
+        m_pShowMsgTE->append(strName + ":" + strMsg);
     }
     else
     {
         QMessageBox::warning(this, "群聊", "信息不能为空");
     }
-    m_pInputMsgLE->clear();
 }

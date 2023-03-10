@@ -10,6 +10,8 @@ PrivateChat::PrivateChat(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setWindowTitle(m_strChatName);
+
     ui->inputMsg_le->setFocus();
     ui->sendMsg_pb->setShortcut(Qt::Key_Return);
     ui->showMsg_te->setTextInteractionFlags(Qt::NoTextInteraction);

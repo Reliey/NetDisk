@@ -5,8 +5,6 @@
 #include <QFileDialog>
 OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
 {
-    this->setMinimumSize(1000,500);
-
     m_pListW = new QListWidget(this);
 //    m_pListW->addItem("好友");
 //    m_pListW->addItem("图书");
@@ -54,13 +52,12 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
     painter.setClipPath(path);
     painter.drawPixmap(1,1,40,40, pixmapa);
     m_profile->setPixmap(pixmap);
-    m_profile->installEventFilter(this);
 
     QHBoxLayout *topVBL = new QHBoxLayout;
-    //topVBL->setFixedWidth(175,100);
     topVBL->addWidget(m_profile);
     topVBL->addWidget(m_name);
     topVBL->setAlignment(Qt::AlignCenter);
+    m_profile->installEventFilter(this);
 
     m_pSW = new QStackedWidget;
     m_pSW->addWidget(m_pFriend);
@@ -193,9 +190,3 @@ void OpeWidget::setHand()
     m_profile->setPixmap(tmpPix);
     file.close();
 }
-
-
-//客户端选择一个头像文件
-//将该文件复制一份并在txt文件中留下记录
-//客户端登录的时候，读取txt文件，并加载头像
-

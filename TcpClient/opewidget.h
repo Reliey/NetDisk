@@ -16,11 +16,13 @@ public:
     Friend *getFriend();
     Book *getBook();
 //    void add_ListWidgetItem();
-    bool eventFilter(QObject *obj, QEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;//QLabel事件过滤器，实现点击更换头像
     void setHand();
+
 signals:
 
 public slots:
+
 
 private:
     QListWidget *m_pListW;

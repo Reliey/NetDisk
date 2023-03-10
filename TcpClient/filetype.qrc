@@ -6,5 +6,12 @@
         <file>map/netdisk.png</file>
         <file>map/close.png</file>
         <file>map/min.png</file>
+        <file>myQSS.qss</file>
+        <file>map/del_gray.png</file>
+        <file>map/del_red.png</file>
+        <file>map/flush_gray.png</file>
+        <file>map/search_blue.png</file>
+        <file>map/flush_blue.png</file>
+        <file>map/search_gray.png</file>
     </qresource>
 </RCC>

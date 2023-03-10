@@ -1,0 +1,84 @@
+QPushButton
+{
+    border:none;
+}
+
+/*刷新好友按钮*/
+QPushButton#m_pFlushFriendPB
+{
+    border-image: url(:/map/flush_gray.png);
+    width:50px;
+    height:50px;
+}
+QPushButton:hover#m_pFlushFriendPB
+{
+    border-image: url(:/map/flush_blue.png);
+    width:50px;
+    height:50px;
+}
+QPushButton:press#m_pFlushFriendPB
+{
+    border-image: url(:/map/flush_blue.png);
+    width:50px;
+    height:50px;
+}
+
+/*删除好友按钮*/
+QPushButton#m_pDelFriendPB
+{
+    border-image: url(:/map/del_gray.png);
+    width:50px;
+    height:50px;
+}
+QPushButton:hover#m_pDelFriendPB
+{
+    border-image: url(:/map/del_red.png);
+    width:50px;
+    height:50px;
+}
+QPushButton:press#m_pDelFriendPB
+{
+    border-image: url(:/map/del_red.png);
+    width:50px;
+    height:50px;
+}
+
+/*查找好友按钮*/
+QPushButton#m_pSearchUsrPB
+{
+    border-image: url(:/map/search_gray.png);
+    width:50px;
+    height:50px;
+}
+QPushButton:hover#m_pSearchUsrPB
+{
+    border-image: url(:/map/search_blue.png);
+    width:50px;
+    height:50px;
+}
+QPushButton:press#m_pSearchUsrPB
+{
+    border-image: url(:/map/search_blue.png);
+    width:50px;
+    height:50px;
+}
+
+/*信息发送按钮*/
+QPushButton:hover#m_pMsgSendPB
+{
+    color:blue;
+}
+
+/*显示在线用户按钮*/
+QPushButton:hover#m_pShowOnlineUsrPB
+{
+    color:blue;
+    text-decoration:underline;
+}
+
+/*私聊按钮*/
+QPushButton:hover#m_pPrivateChatPB
+{
+    color:blue;
+    text-decoration:underline;
+}
