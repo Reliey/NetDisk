@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QTimer>
+#include <QMenu>
 #include "protocol.h"
 
 class Book : public QWidget
@@ -75,7 +76,9 @@ private:
     QString m_strMoveFilePath;
     QString m_strDesDir;
 
-
+    QPushButton *m_pAddMenuPB;
+    QMenu *m_pAddMenu;
+    QSpacerItem *m_pTopHorizonSp;
 
 };
 

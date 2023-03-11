@@ -1,1 +1,1 @@
-C:/Qt/NetDisk/TcpClient/Img/netdisk.png
+C:/Users/lenovo/Desktop/NetDisk/TcpClient/Img/netdisk.png

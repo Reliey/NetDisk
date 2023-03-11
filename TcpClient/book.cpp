@@ -20,21 +20,29 @@ Book::Book(QWidget *parent) : QWidget(parent)
     m_pCreateDirPB = new QPushButton("创建文件夹");
     m_pDelDirPB = new QPushButton("删除文件夹");
     m_pRenamePB = new QPushButton("重命名文件");
-    m_pFlushFilePB = new QPushButton("刷新文件");
     m_pMoveFilePB = new QPushButton("移动文件");
+
+    m_pAddMenuPB = new QPushButton;
+    m_pAddMenu = new QMenu;
+    QAction *upload = new QAction(QIcon(":/map/upload.png"),"上传文件",this);
+    QAction *createDir = new QAction(QIcon(":/map/createdir.png"),"创建文件夹",this);
+    m_pAddMenu->addAction(upload);
+    m_pAddMenu->addAction(createDir);
+    m_pAddMenuPB->setMenu(m_pAddMenu);
+    m_pAddMenuPB->setFixedSize(40,40);
+    m_pFlushFilePB = new QPushButton;
+    m_pFlushFilePB->setFixedSize(40,40);
+    m_pFlushFilePB->setStatusTip("刷新文件");
 
     m_vframe->setFrameShape(QFrame::VLine); //设置垂直线
     m_vframe->setFrameShadow(QFrame::Plain);
-    m_vframe->setStyleSheet("width:1px;color:rgba(30,32,40,1)");
 
     QVBoxLayout *pDirVBL = new QVBoxLayout;
     pDirVBL->addWidget(m_pReturnPB);
     pDirVBL->addWidget(m_pCreateDirPB);
     pDirVBL->addWidget(m_pDelDirPB);
     pDirVBL->addWidget(m_pRenamePB);
-    pDirVBL->addWidget(m_pFlushFilePB);
     pDirVBL->addWidget(m_pMoveFilePB);
-
 
     m_pUploadPB = new QPushButton("上传文件");
     m_pDownloadPB = new QPushButton("下载文件");
@@ -50,18 +58,40 @@ Book::Book(QWidget *parent) : QWidget(parent)
     pFileVBL->addWidget(m_pShareFilePB);
     pFileVBL->addWidget(m_pSelectDirPB);
 
+    QHBoxLayout *operate = new QHBoxLayout;
+    operate->setSpacing(20);
+    operate->addWidget(m_pAddMenuPB);
+    operate->addWidget(m_pFlushFilePB);
+    m_pTopHorizonSp = new QSpacerItem(300,20,QSizePolicy::Expanding,QSizePolicy::Minimum);
+    operate->addItem(m_pTopHorizonSp);
+
+    QVBoxLayout *pList = new QVBoxLayout;
+    pList->addLayout(operate);
+    pList->addWidget(m_pBookListW);
+
     QHBoxLayout *pMain = new QHBoxLayout;
-    pMain->addWidget(m_pBookListW);
+//    pMain->addWidget(m_pBookListW);
+    pMain->addLayout(pList);
     pMain->addWidget(m_vframe);
     pMain->addLayout(pDirVBL);
     pMain->addLayout(pFileVBL);
 
+
     setLayout(pMain);
 
-    m_pBookListW->setStyleSheet("font-size: 20px;"
-                                "background:rgb(245, 245, 247); border:0px; margin:0px 0px 0px 0px;}"
-                                "color:rgb(55,55,55);"
-                                "padding-left:15px;");
+    m_pBookListW->setObjectName("m_bookListW");
+    m_pReturnPB->setObjectName("m_pReturnPB");
+    m_pCreateDirPB->setObjectName("m_pCreateDirPB");
+    m_pDelDirPB->setObjectName("m_pDelDirPB");
+    m_pRenamePB->setObjectName("m_pRenamePB");
+    m_pFlushFilePB->setObjectName("m_pFlushFilePB");
+    m_pUploadPB->setObjectName("m_pUploadPB");
+    m_pDownloadPB->setObjectName("m_pDownloadPB");
+    m_pDelFilePB->setObjectName("m_pDelFilePB");
+    m_pShareFilePB->setObjectName("m_pShareFilePB");
+    m_pMoveFilePB->setObjectName("m_pMoveFilePB");
+    m_pSelectDirPB->setObjectName("m_pSelectDirPB");
+    m_pAddMenuPB->setObjectName("m_pAddMenuPB");
 
     connect(m_pCreateDirPB, SIGNAL(clicked(bool)), this, SLOT(createDir()));
     connect(m_pFlushFilePB, SIGNAL(clicked(bool)), this, SLOT(flushFile()));
@@ -76,7 +106,47 @@ Book::Book(QWidget *parent) : QWidget(parent)
     connect(m_pShareFilePB, SIGNAL(clicked(bool)), this, SLOT(shareFile()));
     connect(m_pMoveFilePB, SIGNAL(clicked(bool)), this, SLOT(moveFile()));
     connect(m_pSelectDirPB, SIGNAL(clicked(bool)), this, SLOT(selectDesDir()));
+    connect(upload, &QAction::triggered, this, &Book::uploadFile);
+    connect(createDir,&QAction::triggered, this, &Book::createDir);
 
+    m_pBookListW->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_pBookListW,&QListWidget::customContextMenuRequested,[=](const QPoint& pos)
+    {
+        QMenu *pMenu = new QMenu(m_pBookListW);
+        QAction *pDelete = new QAction("删除文件", pMenu);
+        QAction *pDownload = new QAction("下载", pMenu);
+        QAction *pRename = new QAction("重命名", pMenu);
+        QAction *pCollect = new QAction("收藏", pMenu);
+        QAction *pCreateDir = new QAction(QIcon(":/map/createdir.png"),"新建文件夹", pMenu);
+        QAction *pUpload = new QAction(QIcon(":/map/upload.png"),"上传文件", pMenu);
+        QAction *pFlush = new QAction(QIcon(":/map/flush_black.png"),"刷新页面", pMenu);
+        //当ListWidgetitem不为空时显示菜单
+        if(m_pBookListW->itemAt(/*mapFromGlobal(QCursor::pos())*/pos)!=NULL)
+        {
+            pMenu->addAction(pDelete);
+            pMenu->addAction(pDownload);
+            pMenu->addAction(pRename);
+            pMenu->addAction(pCollect);
+        }
+        else
+        {
+            pMenu->addAction(pCreateDir);
+            pMenu->addSeparator(); //添加分隔符
+            pMenu->addAction(pUpload);
+            pMenu->addSeparator();
+            pMenu->addAction(pFlush);
+        }
+
+        connect(pDelete,SIGNAL(triggered(bool)),this,SLOT(delRegFile()));
+        connect(pDownload,SIGNAL(triggered(bool)),this,SLOT(downloadFile()));
+        connect(pRename,SIGNAL(triggered(bool)),this,SLOT(reNameFile()));
+        connect(pCreateDir,SIGNAL(triggered(bool)),this,SLOT(createDir()));
+        connect(pUpload,SIGNAL(triggered(bool)),this,SLOT(uploadFile()));
+        connect(pFlush,SIGNAL(triggered(bool)),this,SLOT(flushFile()));
+
+        //在鼠标位置显示菜单
+        pMenu->exec(QCursor::pos());
+    });
 }
 
 void Book::updateFileList(const PDU *pdu)

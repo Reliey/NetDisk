@@ -13,5 +13,10 @@
         <file>map/search_blue.png</file>
         <file>map/flush_blue.png</file>
         <file>map/search_gray.png</file>
+        <file>map/add.png</file>
+        <file>map/createdir.png</file>
+        <file>map/upload.png</file>
+        <file>map/flush_white.png</file>
+        <file>map/flush_black.png</file>
     </qresource>
 </RCC>

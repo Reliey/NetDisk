@@ -83,7 +83,6 @@ Friend::Friend(QWidget *parent) : QWidget(parent)
 
     setLayout(pMain); 
 
-    //m_pFlushFriendPB->setStyleSheet("QPushButton{background-color:green;}");
     connect(m_pShowOnlineUsrPB,SIGNAL(clicked(bool)),this,SLOT(showOnline()));
     connect(m_pSearchUsrPB, SIGNAL(clicked(bool)), this,SLOT(searchUsr()));
     connect(m_pFlushFriendPB, SIGNAL(clicked(bool)), this, SLOT(flushFriend()));

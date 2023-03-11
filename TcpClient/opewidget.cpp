@@ -91,13 +91,16 @@ OpeWidget::OpeWidget(QWidget *parent) : QWidget(parent)
     m_pListW->setFocusPolicy(Qt::NoFocus);  //这样可禁用tab键和上下方向键并且除去复选框
 //    m_pListW->setFixedHeight(320);
     m_pListW->setFont(QFont("Microsoft YaHei", 15, QFont::DemiBold));
-    m_pListW->setStyleSheet(
-                //"*{outline:0px;}"  //除去复选框
-                "QListWidget{background:rgb(245, 245, 247); border:0px; margin:0px 0px 0px 0px;}"
-                "QListWidget::Item{height:50px; border:0px; padding-left:14px; color:rgba(200, 40, 40, 255);border-radius: 7px;}"
-                "QListWidget::Item:hover{background-color:rgba(132,133,141,16); padding-left:14px;}"
-                "QListWidget::Item:selected{color:rgba(40, 40, 200, 255); padding-left:15px;}"
-                );
+//    m_pListW->setStyleSheet(
+//                //"*{outline:0px;}"  //除去复选框
+//                "QListWidget{background:rgb(245, 245, 247); border:0px; margin:0px 0px 0px 0px;}"
+//                "QListWidget::Item{height:50px; border:0px; padding-left:14px; color:rgba(200, 40, 40, 255);border-radius: 7px;}"
+//                "QListWidget::Item:hover{background-color:rgba(132,133,141,16); padding-left:14px;}"
+//                "QListWidget::Item:selected{color:rgba(40, 40, 200, 255); padding-left:15px;}"
+//                );
+
+    this->setObjectName("opeWidget");
+
     connect(m_pListW,SIGNAL(currentRowChanged(int)),m_pSW,SLOT(setCurrentIndex(int)));
 
     setHand();
