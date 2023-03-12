@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QFile>
+#include <QLabel>
 #include <QtWidgets/QApplication>
 
 Friend::Friend(QWidget *parent) : QWidget(parent)
@@ -89,6 +90,32 @@ Friend::Friend(QWidget *parent) : QWidget(parent)
     connect(m_pDelFriendPB, SIGNAL(clicked(bool)), this, SLOT(delFriend()));
     connect(m_pPrivateChatPB, SIGNAL(clicked(bool)), this, SLOT(privateChat()));
     connect(m_pMsgSendPB, SIGNAL(clicked(bool)), this, SLOT(groupChat()));
+    connect(m_pFriendListWidget,&QListWidget::itemDoubleClicked,this,&Friend::privateChat);
+
+    m_pFriendListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_pFriendListWidget,&QListWidget::customContextMenuRequested,[=](const QPoint& pos){
+        QMenu* pMenu = new QMenu(m_pFriendListWidget);
+        QAction *pPriChat = new QAction("私聊",pMenu);
+        QAction *pDelte = new QAction("删除好友",pMenu);
+        QAction *pFlush = new QAction("刷新列表",pMenu);
+
+        if(m_pFriendListWidget->itemAt(pos) != NULL)
+        {
+            pMenu->addAction(pPriChat);
+            pMenu->addAction(pDelte);
+        }
+        else
+        {
+             pMenu->addAction(pFlush);
+        }
+        connect(pPriChat,SIGNAL(triggered(bool)),this,SLOT(privateChat()));
+        connect(pDelte,SIGNAL(triggered(bool)),this,SLOT(delFriend()));
+        connect(pFlush,SIGNAL(triggered(bool)),this,SLOT(flushFriend()));
+
+        pMenu->exec(QCursor::pos());
+
+        delete pMenu;
+    });
 }
 
 void Friend::showAllOnlineUsr(PDU *pdu)
@@ -111,8 +138,43 @@ void Friend::updateFriendList(PDU *pdu)
     char caName[32]= {'\0'};
     for(uint i=0; i<uiSize; i++)
     {
+        QListWidgetItem *listItem = new QListWidgetItem();
+        m_pFriendListWidget->addItem(listItem);
+
+        QWidget *widget = new QWidget();
+        QHBoxLayout *hLayout = new QHBoxLayout(widget);
+        hLayout->setSpacing(0);
+        hLayout->setContentsMargins(0,0,0,0);
+
+        QLabel *name = new QLabel;
+        QLabel *stat = new QLabel;
+        stat->setFixedSize(30,30);
+        QPixmap *pixmap = new QPixmap;
+        //读取好友名字
         memcpy(caName, (char*)(pdu->caMsg)+i*32, 32);
-        m_pFriendListWidget->addItem(caName);
+        if(caName[strlen(caName)-1] == '1')
+        {
+            caName[strlen(caName)-1] = '\0';
+            name->setText(caName);
+            pixmap->load(":/map/online.png");
+        }
+        else if(caName[strlen(caName)-1] == '0')
+        {
+            caName[strlen(caName)-1] = '\0';
+            name->setText(caName);
+            pixmap->load(":/map/offline.png");
+        }
+        pixmap->scaled(stat->size(),Qt::KeepAspectRatio);
+        stat->setScaledContents(true);
+        stat->setPixmap(*pixmap);
+
+        hLayout->addWidget(name);
+        hLayout->addWidget(stat);
+
+        m_pFriendListWidget->setItemWidget(listItem,widget);
+
+        //delete listItem;
+//        m_pFriendListWidget->addItem(caName);
     }
 
 }
@@ -213,8 +275,10 @@ void Friend::privateChat()
         return;
     }
 
-    QString strChatName = m_pFriendListWidget->currentItem()->text();
+    QString strChatName = m_pFriendListWidget->findChild<QLabel*>()->text();
+    //QString strChatName = m_pFriendListWidget->currentItem()->text();
     strChatName = strChatName.split("\t")[0];
+    qDebug() << "private chat name:" << strChatName;
 
     PrivateChat *priChat = searchPriChat(strChatName.toStdString().c_str());
     if(priChat == NULL)

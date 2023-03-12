@@ -272,7 +272,8 @@ void MyTcpSocket::recvMsg()
             for(int i=0; i<onlineFriend.size(); i++)
             {
                 tmp = onlineFriend.at(i);
-                MyTcpServer::getInstance().resend(tmp.toStdString().c_str(), pdu);
+                QString tmp2 = tmp.left(tmp.size()-1);
+                MyTcpServer::getInstance().resend(tmp2.toStdString().c_str(), pdu);
             }
             break;
         }

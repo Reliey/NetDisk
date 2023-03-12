@@ -1,4 +1,5 @@
 #include "opedb.h"
+#include <QCoreApplication>
 #include <Qdebug>
 OpeDB::OpeDB(QObject *parent) : QObject(parent)
 {
@@ -14,7 +15,12 @@ OpeDB &OpeDB::getInstance()
 void OpeDB::init()
 {
     m_db.setHostName("localhost");
-    m_db.setDatabaseName("C:\\Users\\lenovo\\Desktop\\NetDisk\\TcpServer\\cloud.db");
+    QString systemPath = QCoreApplication::applicationDirPath();
+    systemPath.chop(systemPath.size()-systemPath.lastIndexOf("/"));
+    systemPath.chop(systemPath.size()-systemPath.lastIndexOf("/"));
+    systemPath = systemPath + "/TcpServer/cloud.db";
+    //m_db.setDatabaseName("C:\\Qt\\NetDisk\\TcpServer\\cloud.db");
+    m_db.setDatabaseName(systemPath);
     if(m_db.open())
     {
         QSqlQuery query;
@@ -213,20 +219,31 @@ QStringList OpeDB::handleFlushFriend(const char *name)
 
     data = QString("select name from usrInfo where online=1 and "
                    "id in (select id from friend where friendId = %1)").arg(iId);
-//    qDebug() <<data;
     query.exec(data);
     while(query.next())
     {
-//        qDebug() <<query.value(0).toString();
-        strFriendList.append(query.value(0).toString());
+        strFriendList.append(query.value(0).toString()+"1");
     }
     data = QString("select name from usrInfo where online=1 and "
                    "id in (select friendId from friend where id = %1)").arg(iId);
     query.exec(data);
     while(query.next())
     {
-        qDebug() <<query.value(0).toString();
-        strFriendList.append(query.value(0).toString());
+        strFriendList.append(query.value(0).toString()+"1");
+    }
+    data = QString("select name from usrInfo where online=0 and "
+                   "id in (select id from friend where friendId = %1)").arg(iId);
+    query.exec(data);
+    while(query.next())
+    {
+        strFriendList.append(query.value(0).toString()+"0");
+    }
+    data = QString("select name from usrInfo where online=0 and "
+                   "id in (select friendId from friend where id = %1)").arg(iId);
+    query.exec(data);
+    while(query.next())
+    {
+        strFriendList.append(query.value(0).toString()+"0");
     }
     return strFriendList;
 }

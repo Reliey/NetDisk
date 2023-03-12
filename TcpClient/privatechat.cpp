@@ -4,6 +4,7 @@
 #include "tcpclient.h"
 #include <QMessageBox>
 #include <QString>
+#include <QDebug>
 PrivateChat::PrivateChat(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PrivateChat)
@@ -39,8 +40,10 @@ void PrivateChat::updateMsg(const PDU *pdu)
 {
     if(pdu == NULL)
     {
+        qDebug() << "pdu is null";
         return;
     }
+    qDebug() << "pdu is not null";
     char caSendName[32] = {'\0'};
     memcpy(caSendName, pdu->caData, 32);
     QString strMsg = QString("%1 : %2").arg(caSendName).arg((char*)(pdu->caMsg));

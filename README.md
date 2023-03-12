@@ -24,3 +24,7 @@ UI界面更新，回车实现登录。
 ![image-20230311221415007](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20230311221415007.png)
 
 ![image-20230311221644587](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20230311221644587.png)
+
+2023-3-12
+好友列表鼠标右键功能
+好友列表鼠标双击功能

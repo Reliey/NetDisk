@@ -146,6 +146,8 @@ Book::Book(QWidget *parent) : QWidget(parent)
 
         //在鼠标位置显示菜单
         pMenu->exec(QCursor::pos());
+
+        delete pMenu;
     });
 }
 
