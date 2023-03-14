@@ -8,8 +8,8 @@
 #include <QHBoxLayout>
 #include <QTimer>
 #include <QMenu>
+#include <QLabel>
 #include "protocol.h"
-
 class Book : public QWidget
 {
     Q_OBJECT
@@ -46,6 +46,7 @@ public slots:
     void shareFile();
     void moveFile();
     void selectDesDir();
+    void changeItemView();
 
 
 private:
@@ -79,6 +80,10 @@ private:
     QPushButton *m_pAddMenuPB;
     QMenu *m_pAddMenu;
     QSpacerItem *m_pTopHorizonSp;
+
+    QPushButton *m_pSwitchViewPB;
+    int view_flag = 1;
+
 
 };
 

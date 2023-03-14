@@ -20,5 +20,8 @@
         <file>map/flush_black.png</file>
         <file>map/offline.png</file>
         <file>map/online.png</file>
+        <file>map/iconView.png</file>
+        <file>map/manageView.png</file>
+        <file>map/add_black.png</file>
     </qresource>
 </RCC>

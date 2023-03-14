@@ -3,6 +3,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QStyledItemDelegate>
 #include <QFrame>
 #include "opewidget.h"
 #include "sharefile.h"
@@ -29,9 +30,9 @@ Book::Book(QWidget *parent) : QWidget(parent)
     m_pAddMenu->addAction(upload);
     m_pAddMenu->addAction(createDir);
     m_pAddMenuPB->setMenu(m_pAddMenu);
-    m_pAddMenuPB->setFixedSize(40,40);
+    m_pAddMenuPB->setFixedSize(30,30);
     m_pFlushFilePB = new QPushButton;
-    m_pFlushFilePB->setFixedSize(40,40);
+    m_pFlushFilePB->setFixedSize(30,30);
     m_pFlushFilePB->setStatusTip("刷新文件");
 
     m_vframe->setFrameShape(QFrame::VLine); //设置垂直线
@@ -58,11 +59,17 @@ Book::Book(QWidget *parent) : QWidget(parent)
     pFileVBL->addWidget(m_pShareFilePB);
     pFileVBL->addWidget(m_pSelectDirPB);
 
+    m_pSwitchViewPB = new QPushButton;
+    m_pSwitchViewPB->setFixedSize(30,30);
+    m_pSwitchViewPB->setIcon(QIcon(":/map/iconView.png"));
+    m_pSwitchViewPB->setToolTip("切换视图");
+
     QHBoxLayout *operate = new QHBoxLayout;
     operate->setSpacing(20);
     operate->addWidget(m_pAddMenuPB);
     operate->addWidget(m_pFlushFilePB);
     m_pTopHorizonSp = new QSpacerItem(300,20,QSizePolicy::Expanding,QSizePolicy::Minimum);
+    operate->addWidget(m_pSwitchViewPB);
     operate->addItem(m_pTopHorizonSp);
 
     QVBoxLayout *pList = new QVBoxLayout;
@@ -92,6 +99,7 @@ Book::Book(QWidget *parent) : QWidget(parent)
     m_pMoveFilePB->setObjectName("m_pMoveFilePB");
     m_pSelectDirPB->setObjectName("m_pSelectDirPB");
     m_pAddMenuPB->setObjectName("m_pAddMenuPB");
+    m_pSwitchViewPB->setObjectName("m_pSwitchViewPB");
 
     connect(m_pCreateDirPB, SIGNAL(clicked(bool)), this, SLOT(createDir()));
     connect(m_pFlushFilePB, SIGNAL(clicked(bool)), this, SLOT(flushFile()));
@@ -108,8 +116,10 @@ Book::Book(QWidget *parent) : QWidget(parent)
     connect(m_pSelectDirPB, SIGNAL(clicked(bool)), this, SLOT(selectDesDir()));
     connect(upload, &QAction::triggered, this, &Book::uploadFile);
     connect(createDir,&QAction::triggered, this, &Book::createDir);
+    connect(m_pSwitchViewPB,SIGNAL(clicked(bool)),this,SLOT(changeItemView()));
 
     m_pBookListW->setContextMenuPolicy(Qt::CustomContextMenu);
+//    m_pBookListW->setViewMode(QListView::IconMode);
     connect(m_pBookListW,&QListWidget::customContextMenuRequested,[=](const QPoint& pos)
     {
         QMenu *pMenu = new QMenu(m_pBookListW);
@@ -173,18 +183,23 @@ void Book::updateFileList(const PDU *pdu)
     for(int i=0; i<iCount; i++)
     {
         pFileInfo = (FileInfo*)(pdu->caMsg)+i;
-        qDebug() << pFileInfo->caFileName << pFileInfo->iFileType;
         QListWidgetItem *pItem = new QListWidgetItem;
-        if(pFileInfo->iFileType == 0)
+        if(!(QString(QLatin1String(pFileInfo->caFileName)) =="."||QString(QLatin1String(pFileInfo->caFileName)) == ".."))
         {
-            pItem->setIcon(QIcon(QPixmap(":/map/dir.png")));
+            if(pFileInfo->iFileType == 0)
+            {
+                pItem->setIcon(QIcon(QPixmap(":/map/dir.png")));
+            }
+            else if(pFileInfo->iFileType == 1)
+            {
+                pItem->setIcon(QIcon(QPixmap(":/map/regFile.png")));
+            }
+            pItem->setText(pFileInfo->caFileName);
+            {
+                m_pBookListW->addItem(pItem);
+
+            }
         }
-        else if(pFileInfo->iFileType == 1)
-        {
-            pItem->setIcon(QIcon(QPixmap(":/map/regFile.png")));
-        }
-        pItem->setText(pFileInfo->caFileName);
-        m_pBookListW->addItem(pItem);
     }
 
 }
@@ -274,10 +289,11 @@ void Book::delDir()
     else
     {
         QString strDelName = pItem->text();
+        QByteArray byte = strDelName.toUtf8();
         PDU *pdu = mkPDU(strCurPath.size()+1);
         pdu->uiMsgType = ENUM_MSG_TYPE_DEL_DIR_REQUEST;
         memcpy(pdu->caMsg, strCurPath.toStdString().c_str(), strCurPath.size());
-        memcpy(pdu->caData, strDelName.toStdString().c_str(), strDelName.size());
+        memcpy(pdu->caData, strDelName.toStdString().c_str(), byte.size());
         TcpClient::getInstance().getTcpSocket().write((char*)pdu, pdu->uiPDULen);
         free(pdu);
         pdu = NULL;
@@ -295,14 +311,16 @@ void Book::reNameFile()
     else
     {
         QString strOldName = pItem->text();
+        QByteArray byte1 = strOldName.toUtf8();
         QString strNewName = QInputDialog::getText(this, "重命名文件", "请输入新的文件名：");
+        QByteArray byte2 = strOldName.toUtf8();
         if(!strNewName.isEmpty())
         {
             PDU *pdu = mkPDU(strCurPath.size()+1);
             pdu->uiMsgType = ENUM_MSG_TYPE_RENAME_FILE_REQUEST;
             memcpy(pdu->caMsg, strCurPath.toStdString().c_str(), strCurPath.size());
-            memcpy(pdu->caData, strOldName.toStdString().c_str(), strOldName.size());
-            memcpy(pdu->caData+32, strNewName.toStdString().c_str(), strNewName.size());
+            memcpy(pdu->caData, strOldName.toStdString().c_str(), byte1.size());
+            memcpy(pdu->caData+32, strNewName.toStdString().c_str(), byte2.size());
 
             TcpClient::getInstance().getTcpSocket().write((char*)pdu, pdu->uiPDULen);
             free(pdu);
@@ -388,10 +406,11 @@ void Book::delRegFile()
     else
     {
         QString strDelName = pItem->text();
+        QByteArray byte = strDelName.toUtf8();
         PDU *pdu = mkPDU(strCurPath.size()+1);
         pdu->uiMsgType = ENUM_MSG_TYPE_DEL_FILE_REQUEST;
         memcpy(pdu->caMsg, strCurPath.toStdString().c_str(), strCurPath.size());
-        memcpy(pdu->caData, strDelName.toStdString().c_str(), strDelName.size());
+        memcpy(pdu->caData, strDelName.toStdString().c_str(), byte.size());
         TcpClient::getInstance().getTcpSocket().write((char*)pdu, pdu->uiPDULen);
         free(pdu);
         pdu = NULL;
@@ -421,10 +440,11 @@ void Book::downloadFile()
 
         QString strCurPath = TcpClient::getInstance().curPath();
         QString strFileName = pItem->text();
+        QByteArray byte = strFileName.toUtf8();
         PDU *pdu = mkPDU(strCurPath.size()+1);
         pdu->uiMsgType = ENUM_MSG_TYPE_DOWNLOAD_FILE_REQUEST;
         memcpy(pdu->caMsg, strCurPath.toStdString().c_str(), strCurPath.size());
-        memcpy(pdu->caData, strFileName.toStdString().c_str(), strFileName.size());
+        memcpy(pdu->caData, strFileName.toStdString().c_str(), byte.size());
         TcpClient::getInstance().getTcpSocket().write((char*)pdu, pdu->uiPDULen);
 
         free(pdu);
@@ -531,4 +551,35 @@ void Book::selectDesDir()
         QMessageBox::warning(this, "移动文件", "请选择要移动的文件");
     }
     m_pSelectDirPB->setEnabled(false);
+}
+
+void Book::changeItemView()
+{
+    m_pSwitchViewPB->setIcon(QIcon());
+    if(view_flag == 1)
+    {
+       m_pSwitchViewPB->setIcon(QIcon(":/map/manageView.png"));
+       m_pBookListW->setViewMode(QListView::IconMode);
+       m_pBookListW->setResizeMode(QListView::Adjust);
+       m_pBookListW->setMovement(QListView::Static);
+       m_pBookListW->setSpacing(10);
+//       m_pBookListW->setFixedSize(60,60);
+       m_pBookListW->setStyleSheet("QListWidget::item { width: 80px;height:100px; }");
+//       m_pBookListW->setTextInteractionFlags(Qt::NoTextInteraction);
+//       m_pBookListW->setTextElideMode(Qt :: ElideNone);//不显示省略号
+       m_pBookListW->setWordWrap(true);//中文换行
+//       m_pBookListW->setWordWrap(QTextOption::WrapAnywhere);
+       view_flag = 0;
+    }
+    else if(view_flag == 0)
+    {
+       m_pSwitchViewPB->setIcon(QIcon(":/map/iconView.png"));
+       m_pBookListW->setViewMode(QListView::ListMode);
+//       m_pBookListW->setFixedHeight(50);
+       m_pBookListW->setSpacing(0);
+       m_pBookListW->setStyleSheet("QListWidget::item { height: 50px; } QListWidget::item { flex: 1; }");
+//       m_pBookListW->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+       view_flag = 1;
+    }
+
 }

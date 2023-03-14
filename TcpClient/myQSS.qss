@@ -148,8 +148,8 @@ QPushButton#m_pSelectDirPB:hover
 QPushButton#m_pAddMenuPB
 {
 
-    border-radius:20px;
-    border-image: url(:/map/add.png);
+    border-radius:15px;
+    border-image: url(:/map/add_black.png);
 /*    width:30px;
     height:30px;*/
 /*    padding:2px 4px;*/
@@ -158,7 +158,7 @@ QPushButton#m_pAddMenuPB
 
 QPushButton#m_pFlushFilePB
 {
-    border-radius:20px;
+    border-radius:15px;
     border-image: url(:/map/flush_black.png);
 /*    width:30px;
     height:30px;*/
@@ -237,6 +237,8 @@ QTableWidget::item,QListWidget::item,QTreeWidget::item{
 padding:1px;
 margin:0px;
 height:50px;
+/*word-wrap:break-all;
+white-space:normal;*/
 }
 
 

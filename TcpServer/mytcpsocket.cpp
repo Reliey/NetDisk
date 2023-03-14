@@ -338,10 +338,12 @@ void MyTcpSocket::recvMsg()
     //            {
     //                continue;
     //            }
+//                qDebug() << fileInfoList[i].fileName();
                 pFileInfo = (FileInfo*)(respdu->caMsg)+i;
                 strFileName = fileInfoList[i].fileName();
-
-                memcpy(pFileInfo->caFileName, strFileName.toStdString().c_str(), strFileName.size());
+//                memcpy(pFileInfo->caFileName, strFileName.toStdString().c_str(), strFileName.size());
+                strcpy(pFileInfo->caFileName, strFileName.toStdString().c_str());
+//                qDebug() << pFileInfo->caFileName;
                 if(fileInfoList[i].isDir())
                 {
                     pFileInfo->iFileType = 0;
@@ -404,7 +406,7 @@ void MyTcpSocket::recvMsg()
             strncpy(caNewName, pdu->caData+32, 32);
             QString strOldPath = QString("%1/%2").arg(pCurPath).arg(caOldName);
             QString strNewPath = QString("%1/%2").arg(pCurPath).arg(caNewName);
-
+            qDebug() << strOldPath;
             QDir dir;
             bool ret = dir.rename(strOldPath, strNewPath);
 
@@ -454,7 +456,8 @@ void MyTcpSocket::recvMsg()
                     pFileInfo = (FileInfo*)(respdu->caMsg)+i;
                     strFileName = fileInfoList[i].fileName();
 
-                    memcpy(pFileInfo->caFileName, strFileName.toStdString().c_str(), strFileName.size());
+//                    memcpy(pFileInfo->caFileName, strFileName.toStdString().c_str(), strFileName.size());
+                    strcpy(pFileInfo->caFileName, strFileName.toStdString().c_str());
                     if(fileInfoList[i].isDir())
                     {
                         pFileInfo->iFileType = 0;
