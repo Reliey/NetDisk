@@ -182,7 +182,8 @@ void Friend::updateFriendList(PDU *pdu)
 void Friend::updateGroupMsg(PDU *pdu)
 {
     QString strMsg = QString("%1:%2").arg(pdu->caData).arg((char*)(pdu->caMsg));
-    m_pShowMsgTE->append(strMsg);
+    QByteArray byte = strMsg.toUtf8();
+    m_pShowMsgTE->append(byte);
 }
 
 QListWidget *Friend::getFriendLW() const
@@ -302,13 +303,14 @@ void Friend::groupChat()
     m_pInputMsgLE->clear();
     if(!strMsg.isEmpty())
     {
-        PDU *pdu = mkPDU(strMsg.size()+1);
+        QByteArray byte = strMsg.toUtf8();
+        PDU *pdu = mkPDU(byte.size()+1);
         pdu->uiMsgType = ENUM_MSG_TYPE_GROUP_CHAT_REQUEST;
         QString strName = TcpClient::getInstance().loginName();
         strncpy(pdu->caData, strName.toStdString().c_str(), strName.size());
-        strncpy((char*)pdu->caMsg, strMsg.toStdString().c_str(), strMsg.size());
+        strncpy((char*)pdu->caMsg, strMsg.toStdString().c_str(), byte.size());
         TcpClient::getInstance().getTcpSocket().write((char*)pdu, pdu->uiPDULen);
-        m_pShowMsgTE->append(strName + ":" + strMsg);
+        m_pShowMsgTE->append(strName + ":" + byte);
     }
     else
     {

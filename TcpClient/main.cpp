@@ -23,6 +23,5 @@ int main(int argc, char *argv[])
 //      w.show();
 //    Book w;
 //    w.show();
-
     return a.exec();
 }

@@ -38,6 +38,7 @@ void PrivateChat::setChatName(QString strName)
 
 void PrivateChat::updateMsg(const PDU *pdu)
 {
+    //将读取到的消息显示上去出现问题
     if(pdu == NULL)
     {
         qDebug() << "pdu is null";
@@ -47,7 +48,8 @@ void PrivateChat::updateMsg(const PDU *pdu)
     char caSendName[32] = {'\0'};
     memcpy(caSendName, pdu->caData, 32);
     QString strMsg = QString("%1 : %2").arg(caSendName).arg((char*)(pdu->caMsg));
-    ui->showMsg_te->append(strMsg);
+    QByteArray byte = strMsg.toUtf8();
+    ui->showMsg_te->append(byte);
 }
 
 QString PrivateChat::chatName() const
@@ -61,14 +63,17 @@ void PrivateChat::on_sendMsg_pb_clicked()
     ui->inputMsg_le->clear();
     if(!strMsg.isEmpty())
     {
-        QString myMsg = QString("%1 : %2").arg(TcpClient::getInstance().loginName()).arg(strMsg);
-        ui->showMsg_te->append(myMsg);
-        PDU *pdu = mkPDU(strMsg.size()+1);
+        QString myMsg = QString(strMsg);
+        QString myMsgDis = QString("%1 : %2").arg(TcpClient::getInstance().loginName()).arg(strMsg);
+        QByteArray byte = myMsg.toUtf8();
+        QByteArray byteDis = myMsgDis.toUtf8();
+        ui->showMsg_te->append(byteDis);
+        PDU *pdu = mkPDU(byte.size()+1);
         pdu->uiMsgType = ENUM_MSG_TYPE_PRIVATE_CHAT_REQUEST;
         memcpy(pdu->caData, m_strLoginName.toStdString().c_str(), m_strLoginName.size());
         memcpy(pdu->caData+32, m_strChatName.toStdString().c_str(), m_strChatName.size());
 
-        strcpy((char*)(pdu->caMsg), strMsg.toStdString().c_str());
+        strcpy((char*)(pdu->caMsg), byte.toStdString().c_str());
         TcpClient::getInstance().getTcpSocket().write((char*)pdu, pdu->uiPDULen);
         free(pdu);
         pdu = NULL;

@@ -559,7 +559,7 @@ void Book::changeItemView()
     if(view_flag == 1)
     {
        m_pSwitchViewPB->setIcon(QIcon(":/map/manageView.png"));
-       m_pBookListW->setViewMode(QListView::IconMode);
+       m_pBookListW->setViewMode(QListView::IconMode);//设置视图模式，这样列表项将会以图标的形式显示
        m_pBookListW->setResizeMode(QListView::Adjust);
        m_pBookListW->setMovement(QListView::Static);
        m_pBookListW->setSpacing(10);
